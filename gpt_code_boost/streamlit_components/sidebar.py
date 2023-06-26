@@ -18,7 +18,7 @@ def sidebar():
             "1. Enter your [OpenAI API key](https://platform.openai.com/account/api-keys) below🔑\n"  # noqa: E501
             "2. Ask a question about the documentation💬\n"
             "3. Available Documentations: \n"
-            "   - qdrant - v1.2.x\n"
+            "   - qdrant - v1.3.x\n"
         )
         api_key_input = st.text_input(
             "OpenAI API Key",
