@@ -59,7 +59,7 @@ response_container = st.container()
 
 if open_api_key:
     st.text_area("You: ", "", key="query", on_change=clear_text)
-    c1, c2, c3, c4 = st.columns([0.5, 1, 2, 6], gap="small")
+    c1, c2, c3, c4 = st.columns([0.5, 1, 2, 3], gap="small")
     ask_button = c1.button("ask")
     c2.button("restart chat", on_click=clear_chat)
     c3.checkbox(
@@ -107,7 +107,10 @@ if open_api_key:
             system_message, docs = system_message_prompt(
                 st.session_state.temp, open_api_key
             )
-            token_system_message = get_encoding_length(system_message)
+            # hot fix: sometimes system message can be to long, in the future I need a solution to take
+            # not the hole content
+            system_message = system_message[:15000]
+            #token_system_message = get_encoding_length(system_message)
             st.session_state.system.append(system_message)
             messages = [
                 SystemMessage(content=system_message),
