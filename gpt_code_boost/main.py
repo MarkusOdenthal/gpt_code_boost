@@ -40,6 +40,18 @@ def clear_text():
     st.session_state["query"] = ""
 
 
+def clear_chat():
+    st.session_state["system"] = []
+    st.session_state["generated"] = []
+    st.session_state["past"] = []
+    st.session_state["query"] = ""
+    st.session_state["temp"] = ""
+
+
+def delete_temp_query():
+    st.session_state["temp"] = ""
+
+
 # Layout of input/response containers
 input_container = st.container()
 response_container = st.container()
@@ -47,15 +59,16 @@ response_container = st.container()
 
 if open_api_key:
     st.text_area("You: ", "", key="query", on_change=clear_text)
-    c1, c2, c3 = st.columns([0.5, 2, 3], gap="small")
+    c1, c2, c3, c4 = st.columns([0.5, 1, 2, 6], gap="small")
     ask_button = c1.button("ask")
-    c2.checkbox(
+    c2.button("restart chat", on_click=clear_chat)
+    c3.checkbox(
         "send details",
         True,
+        on_change=delete_temp_query,
         key="send_details",
         help="allow question and the answer to be stored in the GPT-Code-Boost feedback database",
     )
-
     chat_box = st.empty()
     stream_handler = StreamHandler(chat_box, display_method="write")
     chat = ChatOpenAI(
