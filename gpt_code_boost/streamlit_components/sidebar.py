@@ -1,6 +1,6 @@
 import streamlit as st
 
-from gpt_code_boost.components.faq import faq
+from gpt_code_boost.streamlit_components.faq import faq
 
 
 def set_openai_api_key(api_key: str):

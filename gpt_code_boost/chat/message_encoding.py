@@ -1,6 +1,8 @@
 import qdrant_client
 import streamlit as st
+import tiktoken
 from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.schema import AIMessage, HumanMessage, SystemMessage
 from langchain.vectorstores import Qdrant
 
 
@@ -22,11 +24,10 @@ def format_context(docs):
             for d in docs
         ]
     )
-    print(context)
     return context
 
 
-def system_message(query, api_token):
+def system_message_prompt(query, api_token):
     docs = embedding_search(query, k=5, api_token=api_token)
     context = format_context(docs)
 
@@ -41,13 +42,24 @@ def system_message(query, api_token):
 
     Context: {context}
     """
+    docs = [doc.page_content for doc in docs]
+    return prompt.format(context=context), docs
 
-    return prompt.format(context=context)
 
-
-def format_query(query, api_token):
+def query_message_prompt(query: str, api_token: str):
     docs = embedding_search(query, k=2, api_token=api_token)
     context = format_context(docs)
-    return f"""Relevant context: {context}
+    docs = [doc.page_content for doc in docs]
+    return (
+        f"""Relevant context: {context}
 
-    {query}"""
+    {query}""",
+        docs,
+    )
+
+
+def get_encoding_length(text: str) -> int:
+    encoding_name = "cl100k_base"
+    encoding = tiktoken.get_encoding(encoding_name)
+    ecoding_length = len(encoding.encode(text))
+    return ecoding_length

@@ -2,7 +2,7 @@
 name = "gpt_code_boost"
 version = "0.1.0"
 description = ""
-authors = ["Markus Odenthal <markus.odenthal@protonmail.come>"]
+authors = ["Markus Odenthal <markus.odenthal@protonmail.com>"]
 readme = "README.md"
 packages = [{include = "gpt_code_boost"}]
 
@@ -17,6 +17,7 @@ transformers = "^4.30.0"
 instructorembedding = "^1.0.1"
 langchain = "^0.0.194"
 sentence-transformers = "^2.2.2"
+supabase = "^1.0.3"
 
 [tool.poetry.group.lint.dependencies]
 isort = "^5.12.0"
